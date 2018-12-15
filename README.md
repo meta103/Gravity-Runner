@@ -23,7 +23,7 @@ TBC
 ### HIGH SCORE SCREEN
 ### LEVELS
 When a new level is reached, the velocity shall increase
-### SKIN
+### THEME
 TBC (Inspired from Mario Bros? Minecraft? none?)
 ### BONUS
 Additional life, points, new skills, multiplayer, etc

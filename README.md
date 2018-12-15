@@ -32,9 +32,13 @@ Additional life, points, new skills, multiplayer, etc
 
 ## Data structure
 index.html
+
 main.js
+
 game.js
+
 player.js
+
 obstacle.js
 
 

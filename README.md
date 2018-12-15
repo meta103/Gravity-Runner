@@ -24,7 +24,11 @@ When a new level is reached, the velocity shall increase
 
 
 ## Data structure
-Classes and methods definition.
+index.html
+main.js
+game.js
+player.js
+obstacle.js
 
 
 ## States y States Transitions

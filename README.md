@@ -2,14 +2,25 @@
 
 ## Description
 The purpose of the game is to reach the highest score possible while avoiding obstacles.
-Player's movements are limited to switching he's gravitational point with the space bar key.
+Player's movements are limited to switching it's gravitational point but it cannot be changed again until the player's location is on the roof or the floor depending on the current gravity. 
 
 
 ## MVP (DOM - CANVAS)
-MVP definition, deliverables.
+###GAME SCREEN
+Display title & start button
+Display game over screen when finished
+
+###GAME BASICS
+Display obstacles randomly.
+Move the player from bottom to top and vice versa with the space bar key.
+Game ends when a collition is detected.
 
 
 ## Backlog
+###Music
+###High Score
+###Levels
+When a new level is reached, the velocity shall increase
 
 
 ## Data structure

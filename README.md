@@ -6,20 +6,20 @@ Player's movements are limited to switching it's gravitational point but it cann
 
 
 ## MVP (DOM - CANVAS)
-##GAME SCREEN
+### GAME SCREEN
 Display title & start button
 Display game over screen when finished
 
-##GAME BASICS
+### GAME BASICS
 Display obstacles randomly.
 Move the player from bottom to top and vice versa with the space bar key.
 Game ends when a collition is detected.
 
 
 ## Backlog
-##Music
-##High Score
-##Levels
+### GAME MUSIC
+### HIGH SCORE
+### LEVELS
 When a new level is reached, the velocity shall increase
 
 

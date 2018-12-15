@@ -2,7 +2,7 @@
 
 ## Description
 The purpose of the game is to reach the highest score possible while avoiding obstacles.
-Player's movements are limited to switching it's gravitational point but it cannot be changed again until the player's location is on the roof or the floor depending on the current gravity. 
+Player's movements are limited to switching it's gravitational point but it cannot be changed again until the player's location is on the roof/floor depending on the current gravity. 
 
 
 ## MVP (DOM - CANVAS)
@@ -11,16 +11,22 @@ Display title & start button
 Display game over screen when finished
 
 ### GAME BASICS
-Display obstacles randomly.
+Display obstacles randomly
+Display player
 Move the player from bottom to top and vice versa with the space bar key.
 Game ends when a collition is detected.
 
 
 ## Backlog
 ### GAME MUSIC
-### HIGH SCORE
+TBC
+### HIGH SCORE SCREEN
 ### LEVELS
 When a new level is reached, the velocity shall increase
+### SKIN
+TBC (Inspired from Mario Bros? Minecraft? none?)
+### BONUS
+Additional life, points, new skills, multiplayer, etc
 
 
 ## Data structure

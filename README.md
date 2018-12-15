@@ -18,7 +18,7 @@ Game ends when a collition is detected.
 
 
 ## Backlog
-### GAME MUSIC
+### Game music
 TBC
 ### HIGH SCORE SCREEN
 ### LEVELS

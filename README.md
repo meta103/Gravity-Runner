@@ -20,12 +20,12 @@ Game ends when a collition is detected.
 ## Backlog
 ### Game music
 TBC
-### HIGH SCORE SCREEN
-### LEVELS
+### High score screen
+### Levels
 When a new level is reached, the velocity shall increase
-### THEME
+### Theme
 TBC (Inspired from Mario Bros? Minecraft? none?)
-### BONUS
+### Bonus
 Additional life, points, new skills, multiplayer, etc
 
 
@@ -40,10 +40,14 @@ obstacle.js
 ## States y States Transitions
 Definition of the different states and their transition (transition functions)
 
-- splashScreen
-- gameScreen
-- gameoverScreen
-- winScreen
+### Start screen
+Display title & start button
+
+### Game screen
+Canvas
+
+### Game over screen
+Display game over screen when finished
 
 
 ## Task

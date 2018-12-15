@@ -64,7 +64,7 @@ https://trello.com/b/nIuXrm4k/gravity-runner
 
 ### Git
 URls for the project repo and deploy
-[Link Repo](http://github.com)
+https://github.com/meta103/Gravity-Runner/blob/master/README.md
 [Link Deploy](http://github.com)
 
 

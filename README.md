@@ -1,7 +1,7 @@
 # Gravity Runner
 
 ## Description
-The purpose of the game is to reach the highest score possible while avoiding obstacles.
+The purpose of this platform game is to reach the highest score possible while avoiding obstacles.
 Player's movements are limited to switching it's gravitational point but it cannot be changed again until the player's location is on the roof/floor depending on the current gravity. 
 
 
@@ -21,6 +21,7 @@ Game ends when a collition is detected.
 ### Game music
 TBC
 ### High score screen
+TBC
 ### Levels
 When a new level is reached, the velocity shall increase
 ### Theme

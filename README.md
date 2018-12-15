@@ -17,10 +17,10 @@ Game ends when a collition is detected.
 
 
 ## Backlog
-###Music
-###High Score
-###Levels
-When a new level is reached, the velocity shall increase
+Music
+High Score
+Levels
+	When a new level is reached, the velocity shall increase
 
 
 ## Data structure

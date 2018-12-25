@@ -11,9 +11,16 @@ Display title & start button
 Display game over screen when finished
 
 ### GAME BASICS
-Display obstacles randomly
+Display obstacles randomly from right to left
+
 Display player
+
+Set limits for player's movement (roof & floor)
+
 Move the player from bottom to top and vice versa with the space bar key.
+
+Establish the collision.
+
 Game ends when a collition is detected.
 
 
@@ -32,9 +39,13 @@ Additional life, points, new skills, multiplayer, etc
 
 ## Data structure
 index.html
+
 main.js
+
 game.js
+
 player.js
+
 obstacle.js
 
 
@@ -71,3 +82,4 @@ https://github.com/meta103/Gravity-Runner/blob/master/README.md
 ### Slides
 URls for the project presentation (slides)
 [Link Slides.com](http://slides.com)
+

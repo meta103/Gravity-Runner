@@ -9,10 +9,15 @@ class Obstacle {
   }
 
   moveToTheLeft(){
-    this.x-=10;
+    if (this.x > 0) {
+      this.x-=10;
+    } else {
+      this.x=1020;
+      this.y = this.generatePosition();
+    }
   }
   generatePosition (){
-    let newY = Math.floor(Math.random() * 550);
+    let newY = Math.floor(Math.random() * (480 - 30)+30);
     return newY;
   }
 }

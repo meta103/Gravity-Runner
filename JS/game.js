@@ -6,6 +6,18 @@ class Game {
     this.bullet = new Obstacle ();
     this.bulletArray = [];
   }
+//Pantalla de inicio
+  welcomeScreen (){
+    this.ctx.fillText("PRESS SPACE BAR TO START", 510, 275);
+    console.log("PRESS SPACE BAR TO START");
+    document.onkeyup = (e) => {
+      switch (e.keyCode){
+        case 32:
+        this.start();
+        break;
+      }
+    }
+  }
 
   //Start
   start (){
@@ -30,8 +42,12 @@ class Game {
     this.ctx.fillStyle = 'green';
   }
   _drawBullet (){
-    this.ctx.fillRect(this.bullet.x, this.bullet.y, 20, 20);
-    //this.ctx.fillStyle = 'red';
+    this.ctx.fillRect(this.bullet.x, this.bullet.y, 40, 40);
+    if (this.bulletArray.length < 93) {
+      this.bulletArray.push({x: this.bullet.x, y:this.bullet.y});
+    } else {
+      this.bulletArray = [];
+    }
   }
   
   //Bucle

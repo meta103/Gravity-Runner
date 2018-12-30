@@ -2,9 +2,10 @@ class Game {
   constructor (ctx, canvas){
     this.ctx=ctx;
     this.canvas = canvas;
-    this.player = new Player(20, 500, this.canvas.height);
+    this.player = new Player(100, 500, this.canvas.height);
     this.bullet = new Obstacle ();
-    this.bulletArray = [];
+    // this.coordinatesPlayer = undefined;
+    // this.coordinatesBullet = undefined;
   }
 //Pantalla de inicio
   welcomeScreen (){
@@ -38,16 +39,13 @@ class Game {
   }
 
   _drawPlayer (){
-    this.ctx.fillRect(this.player.x, this.player.y, 40, 40);
+    this.ctx.fillRect(this.player.x, this.player.y, this.player.playerWidth, this.player.playerHeight);
     this.ctx.fillStyle = 'green';
+    this.player.getPlayerCoordinates();
   }
   _drawBullet (){
-    this.ctx.fillRect(this.bullet.x, this.bullet.y, 40, 40);
-    if (this.bulletArray.length < 93) {
-      this.bulletArray.push({x: this.bullet.x, y:this.bullet.y});
-    } else {
-      this.bulletArray = [];
-    }
+    this.ctx.fillRect(this.bullet.x, this.bullet.y, this.bullet.bulletWidth, this.bullet.bulletHeight);
+    this.bullet.getBulletCoordinates();
   }
   
   //Bucle
@@ -55,7 +53,23 @@ class Game {
     this.ctx.clearRect(0,0, 1020, 550);
     this._drawPlayer();
     this._drawBullet();
+    this.checkCollision();
     this.intervalGame = window.requestAnimationFrame(this._update.bind(this));
+  }
+
+  checkCollision(){
+    if (this.player.top < this.bullet.bottom && this.player.bottom > this.bullet.top){
+      if (this.player.right == this.bullet.left) {
+        console.log ("COLLISION!!!!!!!!");
+        }
+      } else if (this.player.left < this.bullet.right && this.player.right > this.bullet.left){
+        if (this.player.bottom == this.bullet.top){
+          console.log("TOP COLLISION");
+        } else if (this.player.top == this.bullet.bottom){
+          console.log("BOTTOM COLLISION");
+        }
+    }
+    
   }
 
 }

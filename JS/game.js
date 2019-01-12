@@ -1,10 +1,14 @@
-class Game {
+  class Game {
   constructor (ctx, canvas){
     this.ctx=ctx;
     this.canvas = canvas;
-    this.player = new Player(20, 500, this.canvas.height);
+    this.player = new Player(100, 450, this.canvas.height, this.ctx);
     this.bullet = new Obstacle ();
-    this.bulletArray = [];
+    this.points = 0;
+    this.level = 1;
+    this.intervalGame = 0;
+    this.gameStatus = "PLAYING";
+    this.character = new Image ();
   }
 //Pantalla de inicio
   welcomeScreen (){
@@ -23,7 +27,6 @@ class Game {
   start (){
     this._update();
     this.switchGravity();
-    //Llamar a la bullet 
     this.bullet.move();
   }
 
@@ -33,28 +36,114 @@ class Game {
         case 32:
         this.player.move();
         break;
+        case 80:
+        this.pause();
+        break;
       }
     }
   }
 
   _drawPlayer (){
-    this.ctx.fillRect(this.player.x, this.player.y, 40, 40);
-    this.ctx.fillStyle = 'green';
+    // this.ctx.fillRect(this.player.x, this.player.y, this.player.playerWidth, this.player.playerHeight);
+    // this.ctx.fillStyle = 'blue';
+    this.ctx.drawImage(this.player.character, this.player.srcX, this.player.srcY, this.player.widthFrame, this.player.heightFrame, this.player.x, this.player.y, this.player.playerWidth, this.player.playerHeight);
+    this.player.getPlayerCoordinates();
   }
   _drawBullet (){
-    this.ctx.fillRect(this.bullet.x, this.bullet.y, 40, 40);
-    if (this.bulletArray.length < 93) {
-      this.bulletArray.push({x: this.bullet.x, y:this.bullet.y});
-    } else {
-      this.bulletArray = [];
-    }
+    //this.ctx.fillRect(this.bullet.x, this.bullet.y, this.bullet.bulletWidth, this.bullet.bulletHeight);
+    this.ctx.drawImage(this.bullet.rocket, this.bullet.srcX, this.bullet.srcY, this.bullet.widthFrame, this.bullet.heightFrame, this.bullet.x, this.bullet.y, this.bullet.bulletWidth, this.bullet.bulletHeight);
+    this.bullet.getBulletCoordinates();
   }
   
+ 
+  checkCollision (){
+  //   if (this.player.top < this.bullet.bottom && this.player.bottom > this.bullet.top){
+  //     if (this.player.right == this.bullet.left) {
+  //       console.log ("COLLISION!!!!!!!!");
+  //       }
+  //     } else if (this.player.left < this.bullet.right && this.player.right > this.bullet.left){
+  //       if (this.player.bottom == this.bullet.top){
+  //         console.log("TOP COLLISION");
+  //       } else if (this.player.top == this.bullet.bottom){
+  //         console.log("BOTTOM COLLISION");
+  //       }
+  //   }
+    if (this.player.left < this.bullet.right && this.player.right > this.bullet.left){
+      if (this.player.left > this.bullet.left && this.player.top < this.bullet.top && this.player.bottom > this.bullet.top) {
+        console.log("TOP COLLISION");
+        this.bullet.x = -100;
+        this.checkPoint();
+      } else if (this.player.left > this.bullet.left && this.player.top < this.bullet.bottom && this.player.bottom > this.bullet.bottom){
+        console.log("BOTTOM COLLISION");
+        this.bullet.x = -100;
+        this.checkPoint ();
+      } else if (this.player.top < this.bullet.bottom && this.player.bottom > this.bullet.top){
+        console.log("COLLISION");
+        this.gameOver();
+      
+      }
+    }
+
+  }
+  //DOM 
+  checkPoint (){
+    this.points+=1;
+    let pointsScreen = document.querySelector("h2");
+    pointsScreen.textContent = `SCORE: ${this.points}`;
+    this.checkLevel();
+  }
+
+  checkLevel(){
+    if (this.points % 2 === 0 && this.points > 1){
+      this.level+=1;
+      let levelScreen = document.querySelector("h3");
+      levelScreen.textContent = `LEVEL: ${this.level}`;
+      this.bullet.moveFaster();
+      //PARA LLAMAR A UN NUEVO BULLET????? Habria que hacer un array me dijo manu!! 
+      // if (this.points % 4 === 0){
+      //   //this.arrayBullets.push(new Obstacle())
+      //   this.bullet.move();
+      // }
+    } 
+  }
+
+ stopAnimationFrame(){
+  window.cancelAnimationFrame(this.intervalGame);
+ }
+
+  //PAUSE
+  pause(){
+    if (this.gameStatus === "PLAYING"){
+      this.stopAnimationFrame();
+      this.player.stopPlayerInterval();
+      this.bullet.stopBulLetInterval();
+      this.ctx.fillText("PRESS P TO CONTINUE", 510, 275);
+      this.gameStatus = "STOPPED";
+    } else if (this.gameStatus === "STOPPED") {
+      this._update();
+      //this.intervalGame = window.requestAnimationFrame(this._update.bind(this));
+      this.bullet.move();
+      this.player.resumePlayerInterval();
+      this.gameStatus = "PLAYING";
+    }
+  }
+
+  //GAME OVER SCREEN NO FUNCIONA!!!!
+  gameOver(){
+    this.stopAnimationFrame();
+    this.player.stopPlayerInterval();
+    this.bullet.stopBulLetInterval();
+    this.player.status = "DEAD";
+    this.ctx.fillText("GAME OVER", 510, 275);
+  }
+
+
   //Bucle
-  _update(){
+   _update(){
     this.ctx.clearRect(0,0, 1020, 550);
     this._drawPlayer();
     this._drawBullet();
+    this.checkCollision();
     this.intervalGame = window.requestAnimationFrame(this._update.bind(this));
   }
 

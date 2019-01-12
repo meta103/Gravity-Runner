@@ -3,16 +3,50 @@ class Obstacle {
     this.x = 1020;
     this.y = this.generatePosition();
     this.intervalId = undefined;
+    this.bulletWidth = 250;
+    this.bulletHeight = 60;
+    //this.coordinatesBullet = undefined;
+    this.top = 0;
+    this.bottom = 0;
+    this.left = 0;
+    this.right = 0;
+    this.velocity = 15;
+
+    //SPRITES
+    this.rocket = new Image();
+    this.rocket.src = "SPRITES/ROCKETS.png";
+
+    this.spriteWidth = 1689;
+    this.spriteHeight = 226;
+    this.rows = 1;
+    this.cols = 3;
+
+    this.widthFrame = this.spriteWidth/this.cols;
+    this.heightFrame = this.spriteHeight/this.rows;
+
+    this.currentFrame = 0;
+    this.frameCount = 3;
+
+    this.srcX = 0;
+    this.srcY = this.heightFrame*0 ;
+
+    this._updateFrame();
   }
+  
   move (){
-    this.intervalId = setInterval(this.moveToTheLeft.bind(this), 15);
+    this.intervalId = setInterval(this.moveToTheLeft.bind(this), this.velocity);
   }
 
+  stopBulLetInterval(){
+    clearInterval(this.intervalId);
+  }
+  
+
   moveToTheLeft(){
-    if (this.x > 0) {
+    if (this.x > -100) {
       this.x-=10;
     } else {
-      this.x=1020;
+      this.x=1020; 
       this.y = this.generatePosition();
     }
   }
@@ -20,4 +54,28 @@ class Obstacle {
     let newY = Math.floor(Math.random() * (480 - 30)+30);
     return newY;
   }
+
+  getBulletCoordinates (){
+    this.top = this.y;
+    this.bottom = this.y + this.bulletHeight;
+    this.left= this.x;
+    this.right = this.x + this.bulletWidth;
+  }
+  
+  moveFaster(){
+    this.velocity -= 2;
+    this.stopBulLetInterval();
+    this.move();
+  }
+
+  //SPRITES
+  _updateFrame(){
+    this.intervalId = clearInterval(this.intervalId);
+    this.intervalId = setInterval(()=>{
+      this.currentFrame = ++this.currentFrame % this.frameCount;
+      this.srcX = this.currentFrame * this.widthFrame;
+      this._changeFrames();
+    },50)
+  }
+
 }

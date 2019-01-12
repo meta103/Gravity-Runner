@@ -1,6 +1,20 @@
 *{
   text-align: center;
+  color: whitesmoke;
+  background-color: #230119;
 }
 #gravityRunner {
   border: solid 1px black;
+  /* background-image: "/Users/marcostagliabue/Ironhack/WDPT2018/Modulo 1/PROYECTO/Gravity-Runner/FondoCanvas2.jpg"; */
+  
+}
+.stadistics {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+h2, h3 {
+  margin: 0;
+  font-size: 1.5em;
+  font-weight: bold
 }

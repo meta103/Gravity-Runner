@@ -10,16 +10,23 @@ class Obstacle {
     this.bottom = 0;
     this.left = 0;
     this.right = 0;
+    this.velocity = 15;
   }
+  
   move (){
-    this.intervalId = setInterval(this.moveToTheLeft.bind(this), 15);
+    this.intervalId = setInterval(this.moveToTheLeft.bind(this), this.velocity);
   }
 
+  stopBulLetInterval(){
+    clearInterval(this.intervalId);
+  }
+  
+
   moveToTheLeft(){
-    if (this.x > 0) {
+    if (this.x > -100) {
       this.x-=10;
     } else {
-      this.x=1020;
+      this.x=1020; 
       this.y = this.generatePosition();
     }
   }
@@ -33,6 +40,12 @@ class Obstacle {
     this.bottom = this.y + this.bulletHeight;
     this.left= this.x;
     this.right = this.x + this.bulletWidth;
+  }
+  //NO FUNCIONA
+  moveFaster(){
+    this.velocity -= 2;
+    this.stopBulLetInterval();
+    this.move();
   }
 
 }

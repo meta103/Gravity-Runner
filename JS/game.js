@@ -2,7 +2,7 @@
   constructor (ctx, canvas){
     this.ctx=ctx;
     this.canvas = canvas;
-    this.player = new Player(100, 500, this.canvas.height);
+    this.player = new Player(100, 450, this.canvas.height, this.ctx);
     this.bullet = new Obstacle ();
     this.points = 0;
     this.level = 1;
@@ -44,17 +44,19 @@
   }
 
   _drawPlayer (){
-    this.ctx.fillRect(this.player.x, this.player.y, this.player.playerWidth, this.player.playerHeight);
-    this.ctx.fillStyle = 'blue';
+    // this.ctx.fillRect(this.player.x, this.player.y, this.player.playerWidth, this.player.playerHeight);
+    // this.ctx.fillStyle = 'blue';
+    this.ctx.drawImage(this.player.character, this.player.srcX, this.player.srcY, this.player.widthFrame, this.player.heightFrame, this.player.x, this.player.y, this.player.playerWidth, this.player.playerHeight);
     this.player.getPlayerCoordinates();
   }
   _drawBullet (){
-    this.ctx.fillRect(this.bullet.x, this.bullet.y, this.bullet.bulletWidth, this.bullet.bulletHeight);
+    //this.ctx.fillRect(this.bullet.x, this.bullet.y, this.bullet.bulletWidth, this.bullet.bulletHeight);
+    this.ctx.drawImage(this.bullet.rocket, this.bullet.srcX, this.bullet.srcY, this.bullet.widthFrame, this.bullet.heightFrame, this.bullet.x, this.bullet.y, this.bullet.bulletWidth, this.bullet.bulletHeight);
     this.bullet.getBulletCoordinates();
   }
   
  
-  checkCollision(){
+  checkCollision (){
   //   if (this.player.top < this.bullet.bottom && this.player.bottom > this.bullet.top){
   //     if (this.player.right == this.bullet.left) {
   //       console.log ("COLLISION!!!!!!!!");
@@ -66,21 +68,21 @@
   //         console.log("BOTTOM COLLISION");
   //       }
   //   }
-  if (this.player.left < this.bullet.right && this.player.right > this.bullet.left){
-    if (this.player.left > this.bullet.left && this.player.top < this.bullet.top && this.player.bottom > this.bullet.top) {
-      console.log("TOP COLLISION");
-      this.bullet.x = -100;
-      this.checkPoint();
-    } else if (this.player.left > this.bullet.left && this.player.top < this.bullet.bottom && this.player.bottom > this.bullet.bottom){
-      console.log("BOTTOM COLLISION");
-      this.bullet.x = -100;
-      this.checkPoint ();
-    } else if (this.player.top < this.bullet.bottom && this.player.bottom > this.bullet.top){
-      console.log("COLLISION");
-      this.gameOver();
-     
+    if (this.player.left < this.bullet.right && this.player.right > this.bullet.left){
+      if (this.player.left > this.bullet.left && this.player.top < this.bullet.top && this.player.bottom > this.bullet.top) {
+        console.log("TOP COLLISION");
+        this.bullet.x = -100;
+        this.checkPoint();
+      } else if (this.player.left > this.bullet.left && this.player.top < this.bullet.bottom && this.player.bottom > this.bullet.bottom){
+        console.log("BOTTOM COLLISION");
+        this.bullet.x = -100;
+        this.checkPoint ();
+      } else if (this.player.top < this.bullet.bottom && this.player.bottom > this.bullet.top){
+        console.log("COLLISION");
+        this.gameOver();
+      
+      }
     }
-  }
 
   }
   //DOM 
@@ -97,7 +99,7 @@
       let levelScreen = document.querySelector("h3");
       levelScreen.textContent = `LEVEL: ${this.level}`;
       this.bullet.moveFaster();
-      //PARA LLAMAR A UN NUEVO BULLET????? Habria que hacer un array em dijo manu!! 
+      //PARA LLAMAR A UN NUEVO BULLET????? Habria que hacer un array me dijo manu!! 
       // if (this.points % 4 === 0){
       //   //this.arrayBullets.push(new Obstacle())
       //   this.bullet.move();
@@ -131,6 +133,7 @@
     this.stopAnimationFrame();
     this.player.stopPlayerInterval();
     this.bullet.stopBulLetInterval();
+    this.player.status = "DEAD";
     this.ctx.fillText("GAME OVER", 510, 275);
   }
 

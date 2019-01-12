@@ -1,12 +1,13 @@
 class Player {
-  constructor (x, y, canvasHeight){
+  constructor (x, y, canvasHeight, ctx){
+    this.ctx = ctx;
     this.gravity = "down";
     this.x = x;
     this.y = y;
     this.intervalId = undefined;
     this.canvasHeight = canvasHeight;
-    this.playerWidth = 40;
-    this.playerHeight = 40;
+    this.playerWidth = 100;
+    this.playerHeight = 100;
     //this.coordinatesPlayer = {};
     this.top = 0;
     this.bottom = 0;
@@ -14,7 +15,35 @@ class Player {
     this.left = 0;
     this.playerVelocity = 15;
     this.status = "STOPPED";
+    //SPRITES
+    this.character = new Image();
+    this.character.src = "SPRITES/PLAYER.png";
+
+    this.spriteWidth = 6000;
+    this.spriteHeight = 2400;
+    this.rows = 4;
+    this.cols = 10;
+    //Creo que esto no hace falta
+    // this.runStandard = 0;
+    // this.runUpsideDown = 1;
+    // this.jump = 2;
+    // this.die = 3;
+
+    this.widthFrame = this.spriteWidth/this.cols;
+    this.heightFrame = this.spriteHeight/this.rows;
+
+    this.currentFrame = 0;
+    this.frameCount = 10;
+
+    this.srcX = 0;
+    this.srcY = this.heightFrame*0 ;
+
+    this._updateFrame();
+
   }
+
+
+
   move (){
     if (this.status === "STOPPED"){
       this.intervalId = setInterval(this.changeGravity.bind(this), this.playerVelocity);
@@ -45,7 +74,7 @@ class Player {
     } else if (this.gravity ==="up" && this.status === "MOVING"){
       this.y+=10;
       this.status = "MOVING";
-      if (this.y > (this.canvasHeight-70)){
+      if (this.y > (this.canvasHeight-120)){
         clearInterval(this.intervalId);
         this.status = "STOPPED";
         this.gravity ="down";
@@ -60,5 +89,31 @@ class Player {
     this.left = this.x;
   }
 
+  //SPRITES
 
+  _updateFrame(){
+    this.intervalId = clearInterval(this.intervalId);
+    this.intervalId = setInterval(()=>{
+      this.currentFrame = ++this.currentFrame % this.frameCount;
+      this.srcX = this.currentFrame * this.widthFrame;
+      this._changeFrames();
+    },50)
+  }
+
+  _changeFrames(){
+    if (this.status === "STOPPED"){
+      if (this.gravity === "down"){
+        this.srcY = this.heightFrame*0;
+        this.frameCount = 10;
+      } else if (this.gravity === "up"){
+        this.srcY = this.heightFrame*1;
+      }
+    } else if (this.status === "MOVING"){
+      this.srcY = this.heightFrame*2;
+      this.frameCount = 8;
+    } else if (this.status === "DEAD"){
+      this.srcY = this.heightFrame*3;
+      this.frameCount = 3;
+    }
+  }
 }

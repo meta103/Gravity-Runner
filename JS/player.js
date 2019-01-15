@@ -101,7 +101,7 @@ class Player {
       this.srcX = this.currentFrame * this.widthFrame;
       this._changeFrames();
       if (this.status === "DEAD" && this.currentFrame === 8){
-        clearInterval(this.intervalIdSprites);
+        this.intervalIdSprites = clearInterval(this.intervalIdSprites);
       }
     },this.velocityFrame)
   }

@@ -9,6 +9,7 @@
     this.intervalGame = 0;
     this.gameStatus = "PLAYING";
     this.character = new Image ();
+    this.background = new Background ();
   }
   
 //Pantalla de inicio
@@ -29,6 +30,20 @@
     this._update();
     this.switchGravity();
     this.bullet.move();
+  }
+  drawBackground (){
+    this.ctx.drawImage(this.background.img, this.background.x, 0);
+    if (this.background.speed < 0) {
+      this.ctx.drawImage(this.background.img, this.background.x + this.background.width, 0);
+    } else {
+      this.ctx.drawImage(this.background.img, this.background.x - this.background.width, 0);
+    }
+  }
+
+  moveBackground(){
+    // Infinite backgroun loop
+    this.background.x += this.background.speed; 
+    this.background.x %= this.background.width;
   }
 
   switchGravity (){
@@ -143,6 +158,8 @@
   //Bucle
    _update(){
     this.ctx.clearRect(0,0, 1020, 550);
+    this.drawBackground();
+    this.moveBackground ();
     this._drawPlayer ();
     this._drawBullet ();
     this.checkCollision ();

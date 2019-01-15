@@ -5,7 +5,7 @@ document.onload = function (){
   // background.src = "/Users/marcostagliabue/Ironhack/WDPT2018/Modulo 1/PROYECTO/Gravity-Runner/FondoCanvas2.jpg";
   // ctx.drawImage(background,0,0);
 
-  document.getElementById("gravityRunner").style.background = "url('/Users/marcostagliabue/Ironhack/WDPT2018/Modulo 1/PROYECTO/Gravity-Runner/FondoCanvas.png')"
+  document.getElementById("gravityRunner").style.background = "url('/Users/marcostagliabue/Ironhack/WDPT2018/Modulo 1/PROYECTO/Gravity-Runner/FondoCanvas3.png')"
   
   ctx.font = '50px Arial';
   ctx.textAlign = "center"; 

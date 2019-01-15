@@ -10,6 +10,7 @@
     this.gameStatus = "PLAYING";
     this.character = new Image ();
   }
+  
 //Pantalla de inicio
   welcomeScreen (){
     this.ctx.fillText("PRESS SPACE BAR TO START", 510, 275);
@@ -128,11 +129,12 @@
     }
   }
 
-  //GAME OVER SCREEN NO FUNCIONA!!!!
+  //NO FUNCIONA LA LINEA 133!!
   gameOver(){
     this.stopAnimationFrame();
     this.player.stopPlayerInterval();
     this.bullet.stopBulLetInterval();
+    this.gameStatus = "STOPPED";
     this.player.status = "DEAD";
     this.ctx.fillText("GAME OVER", 510, 275);
   }
@@ -141,10 +143,11 @@
   //Bucle
    _update(){
     this.ctx.clearRect(0,0, 1020, 550);
-    this._drawPlayer();
-    this._drawBullet();
-    this.checkCollision();
+    this._drawPlayer ();
+    this._drawBullet ();
+    this.checkCollision ();
     this.intervalGame = window.requestAnimationFrame(this._update.bind(this));
   }
 
+  
 }

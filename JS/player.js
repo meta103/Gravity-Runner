@@ -5,6 +5,7 @@ class Player {
     this.x = x;
     this.y = y;
     this.intervalId = undefined;
+    this.intervalIdSprites = undefined;
     this.canvasHeight = canvasHeight;
     this.playerWidth = 100;
     this.playerHeight = 100;
@@ -37,6 +38,8 @@ class Player {
 
     this.srcX = 0;
     this.srcY = this.heightFrame*0 ;
+
+    this.velocityFrame = 50;
 
     this._updateFrame();
 
@@ -92,12 +95,15 @@ class Player {
   //SPRITES
 
   _updateFrame(){
-    this.intervalId = clearInterval(this.intervalId);
-    this.intervalId = setInterval(()=>{
+    this.intervalIdSprites = clearInterval(this.intervalIdSprites);
+    this.intervalIdSprites = setInterval(()=>{
       this.currentFrame = ++this.currentFrame % this.frameCount;
       this.srcX = this.currentFrame * this.widthFrame;
       this._changeFrames();
-    },50)
+      if (this.status === "DEAD" && this.currentFrame === 8){
+        clearInterval(this.intervalIdSprites);
+      }
+    },this.velocityFrame)
   }
 
   _changeFrames(){
@@ -112,8 +118,16 @@ class Player {
       this.srcY = this.heightFrame*2;
       this.frameCount = 8;
     } else if (this.status === "DEAD"){
-      this.srcY = this.heightFrame*3;
-      this.frameCount = 3;
-    }
+      this.character.src="SPRITES/EXPLOSION.png"
+      this.velocityFrame = 2000;
+      this.spriteWidth = 4017;
+      this.spriteHeight = 600;
+      this.rows = 1;
+      this.cols = 7;
+      this.srcY = 0;
+      this.frameCount = 8;
+      
+      
+    } 
   }
 }

@@ -74,7 +74,6 @@ class Obstacle {
     this.intervalId = setInterval(()=>{
       this.currentFrame = ++this.currentFrame % this.frameCount;
       this.srcX = this.currentFrame * this.widthFrame;
-      this._changeFrames();
     },50)
   }
 

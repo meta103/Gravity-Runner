@@ -8,12 +8,14 @@
 body {
   background: radial-gradient(ellipse at bottom, #9876e9 0%, #001425 100%);
   overflow: hidden;
+  margin: 0;
   /* background-image: url("/Users/marcostagliabue/Ironhack/WDPT2018/Modulo 1/PROYECTO/Gravity-Runner/FondoCanvas.png"); */
 }
 
 #gravityRunner {
   -webkit-box-shadow: 0px 0px 50px 11px rgba(0,0,0,0.75); 
   box-shadow: 0px 0px 50px 11px rgba(0,0,0,0.75);
+  
   
 }
 .stadistics {
@@ -38,6 +40,48 @@ h1 {
   background: -webkit-linear-gradient(white, #9876e9);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+.startScreen {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 0;
+}
+
+.startScreenPhoto{
+  max-width: 80%;
+  margin-top: 50px;
+}
+
+.canvasContainer{
+  display: flex;
+  justify-content: center;
+}
+
+.hide{
+  display: none;
+}
+
+.opasity{
+  position: absolute;
+  padding: 0;
+  width: 1020px;
+  height: 550px;
+  background-color: black;
+  opacity: 0.5;
+}
+.gameOverScreen, .pauseScreen{
+  position: absolute;
+  padding: 0;
+  max-width: 100vh;
+  
+}
+
+.gameOverPhoto, .pausePhoto{
+  max-width: 80%;
+  margin: 0 auto;
 }
 
 #stars {

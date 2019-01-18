@@ -101,7 +101,7 @@ class Player {
       this.srcX = this.currentFrame * this.widthFrame;
       this._changeFrames();
       if (this.status === "DEAD" && this.currentFrame === 8){
-        this.intervalIdSprites = clearInterval(this.intervalIdSprites);
+        clearInterval(this.intervalIdSprites);
       }
     },this.velocityFrame)
   }
@@ -119,14 +119,13 @@ class Player {
       this.frameCount = 8;
     } else if (this.status === "DEAD"){
       this.character.src="SPRITES/EXPLOSION.png"
-      this.velocityFrame = 2000;
+      this.velocityFrame = 20;
       this.spriteWidth = 4017;
       this.spriteHeight = 600;
       this.rows = 1;
       this.cols = 7;
       this.srcY = 0;
       this.frameCount = 8;
-      
       
     } 
   }

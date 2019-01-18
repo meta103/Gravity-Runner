@@ -9,17 +9,32 @@
   <title>GRAVITY RUNNER</title>
 </head>
 <body>
+  
   <div id="stars"></div>
   <div id="stars2"></div>
   <div id="stars3"></div>
  
   <h1>GRAVITY RUNNER</h1>
+  <div class="startScreen">
+    <img src="STARTSCREEN.png" alt="Start screen" srcset="" class="startScreenPhoto">
+  </div>
   <div class="stadistics">
   <h2> SCORE: 0 </h2>
   <h3> LEVEL: 1</h3>
   </div>
-  <canvas id="gravityRunner" width="1020" height="550"></canvas>
+ 
+  <div class="canvasContainer">
+    <canvas id="gravityRunner" width="1020" height="550"></canvas>
+    <div class="opasity hide"></div>
+    <div class="gameOverScreen hide">
+        <img src="GAME OVER.png" alt="GAME OVER" srcset="" class="gameOverPhoto">
+    </div>
+    <div class="pauseScreen hide">
+        <img src="RESUME.png" alt="PAUSE" srcset="" class="pausePhoto">
+    </div>
+  </div>
   
+ 
   
   <script src="js/obstacle.js"></script>
   <script src="js/player.js"></script>

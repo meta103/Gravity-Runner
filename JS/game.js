@@ -144,7 +144,7 @@ class Game {
         this.bullet.stopBulLetInterval();
         setTimeout(() => {
           this.gameOver();
-        }, 300);
+        }, 350);
       }
     }
   }
@@ -197,7 +197,7 @@ class Game {
   //GAME OVER Screen
   gameOver() {
     this.stopAnimationFrame();
-    this.player.stopPlayerInterval();
+    //this.player.stopPlayerInterval();
     
     document.querySelector(".opasity").classList.remove("hide");
     document.querySelector(".gameOverScreen").classList.remove("hide");

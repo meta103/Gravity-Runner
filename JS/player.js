@@ -18,7 +18,7 @@ class Player {
     this.status = "STOPPED";
     //SPRITES
     this.character = new Image();
-    this.character.src = "SPRITES/player_.png";
+    this.character.src = "sprites/player_.png";
 
     this.spriteWidth = 6000;
     this.spriteHeight = 2400;
@@ -118,7 +118,7 @@ class Player {
       this.srcY = this.heightFrame*2;
       this.frameCount = 8;
     } else if (this.status === "DEAD"){
-      this.character.src="SPRITES/explosion_.png"
+      this.character.src="sprites/explosion_.png"
       this.velocityFrame = 20;
       this.spriteWidth = 4017;
       this.spriteHeight = 600;

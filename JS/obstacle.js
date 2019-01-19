@@ -13,7 +13,7 @@ class Obstacle {
 
     //SPRITES
     this.rocket = new Image();
-    this.rocket.src = "SPRITES/rockets_.png";
+    this.rocket.src = "sprites/rockets_.png";
 
     this.spriteWidth = 1689;
     this.spriteHeight = 226;

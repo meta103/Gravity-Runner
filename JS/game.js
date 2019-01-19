@@ -4,9 +4,13 @@ class Game {
     this.canvas = canvas;
     this.player = new Player(100, 450, this.canvas.height, this.ctx);
     this.bullet = new Obstacle();
+    this.Bullets = [];
     this.points = 0;
     this.level = 1;
+    this.secondsForBulletsInterval = 2500;
+    this.currentSecondsForBulletInterval = this.secondsForBulletsInterval;
     this.intervalGame = undefined;
+    this.generateBulletsInterval = undefined;
     this.gameStatus = "PLAYING";
     this.character = new Image();
     this.background = new Background();
@@ -27,11 +31,13 @@ class Game {
 
   //Start
   start() {
-    // this._update();
     this.intervalGame = window.requestAnimationFrame(this._update.bind(this));
     this.switchGravity();
-    this.bullet.move();
+    //this.startGeneratingBullets();
+    //this.bullet.move();
+    this.startGeneratingBullets();
   }
+
   drawBackground() {
     this.ctx.drawImage(this.background.img, this.background.x, 0);
     if (this.background.speed < 0) {
@@ -84,21 +90,57 @@ class Game {
     );
     this.player.getPlayerCoordinates();
   }
+  // =====================BULLETS===============================================//
+  startGeneratingBullets() { 
+    this.generateBulletsInterval = setInterval(function(){this.generateBullets();}.bind(this), this.currentSecondsForBulletInterval);
+  }
+
+  generateBullets (){
+    this.Bullets.push(new Obstacle());
+    
+  }
+
   _drawBullet() {
     //this.ctx.fillRect(this.bullet.x, this.bullet.y, this.bullet.bulletWidth, this.bullet.bulletHeight);
-    if (this.gameStatus !== "GAMEOVER") {
-      this.ctx.drawImage(
-      this.bullet.rocket,
-      this.bullet.srcX,
-      this.bullet.srcY,
-      this.bullet.widthFrame,
-      this.bullet.heightFrame,
-      this.bullet.x,
-      this.bullet.y,
-      this.bullet.bulletWidth,
-      this.bullet.bulletHeight
-    )};
-    this.bullet.getBulletCoordinates();
+    this.Bullets.forEach((bullet) => {
+      bullet.getBulletCoordinates();
+      if (this.gameStatus !== "GAMEOVER") {
+          this.ctx.drawImage(
+          bullet.rocket,
+          bullet.srcX,
+          bullet.srcY,
+          bullet.widthFrame,
+          bullet.heightFrame,
+          bullet.x,
+          bullet.y,
+          bullet.bulletWidth,
+          bullet.bulletHeight
+        )};
+      });
+
+    // if (this.gameStatus !== "GAMEOVER") {
+    //   this.ctx.drawImage(
+    //   this.bullet.rocket,
+    //   this.bullet.srcX,
+    //   this.bullet.srcY,
+    //   this.bullet.widthFrame,
+    //   this.bullet.heightFrame,
+    //   this.bullet.x,
+    //   this.bullet.y,
+    //   this.bullet.bulletWidth,
+    //   this.bullet.bulletHeight
+    // )};
+    
+  }
+
+  deleteBullets (){
+    this.Bullets.forEach((bullet) =>{
+      if (bullet.x < -100){
+        this.Bullets.splice(bullet.index, 1); 
+        //setTimeout(this.generateBullets(), 1000);
+        this.generateBullets();
+      }
+    });
   }
 
   checkCollision() {
@@ -113,40 +155,52 @@ class Game {
     //         console.log("BOTTOM COLLISION");
     //       }
     //   }
-    if (
-      this.player.left < this.bullet.right &&
-      this.player.right > this.bullet.left
-    ) {
+    this.Bullets.forEach((bullet) => {
       if (
-        this.player.left > this.bullet.left &&
-        this.player.top < this.bullet.top &&
-        this.player.bottom > this.bullet.top
+        this.player.left < bullet.right &&
+        this.player.right-10 > bullet.left
       ) {
-        console.log("TOP COLLISION");
-        this.bullet.x = -100;
-        this.checkPoint();
-      } else if (
-        this.player.left > this.bullet.left &&
-        this.player.top < this.bullet.bottom &&
-        this.player.bottom > this.bullet.bottom
-      ) {
-        console.log("BOTTOM COLLISION");
-        this.bullet.x = -100;
-        this.checkPoint();
-      } else if (
-        this.player.top < this.bullet.bottom &&
-        this.player.bottom > this.bullet.top && 
-        this.player.right > this.bullet.left + 20
-      ) {
-        console.log("COLLISION");
-        this.player.status = "DEAD";
-        this.gameStatus = "GAMEOVER";
-        this.bullet.stopBulLetInterval();
-        setTimeout(() => {
-          this.gameOver();
-        }, 350);
+        if (
+          this.player.left > bullet.left &&
+          this.player.top+10 < bullet.top &&
+          this.player.bottom- 10 > bullet.top
+        ) {
+          console.log("TOP COLLISION");
+          console.log(this.Bullets.length);
+          this.Bullets.splice(bullet.index, 1);
+          console.log(this.Bullets.length);
+          //this.generateBullets();
+          this.checkPoint();
+        } else if (
+          this.player.left > bullet.left &&
+          this.player.top+10 < bullet.bottom &&
+          this.player.bottom-10 > bullet.bottom
+        ) {
+          console.log("BOTTOM COLLISION");
+          console.log(this.Bullets.length);
+          this.Bullets.splice(bullet.index, 1);
+          console.log(this.Bullets.length);
+          //this.generateBullets();
+          this.checkPoint();
+        } else if (
+          this.player.top +10< bullet.bottom &&
+          this.player.bottom -10 > bullet.top && 
+          this.player.right-10 > bullet.left
+        ) {
+          console.log("COLLISION");
+          this.player.status = "DEAD";
+          this.gameStatus = "GAMEOVER";
+          this.Bullets.splice(bullet.index, 1);
+          this.Bullets.forEach((bullet) => {
+            bullet.stopBulLetInterval();
+            });
+          setTimeout(() => {
+            this.gameOver();
+          }, 350);
+        }
       }
-    }
+    });
+
   }
   //DOM
   checkPoint() {
@@ -157,16 +211,13 @@ class Game {
   }
 
   checkLevel() {
-    if (this.points % 2 === 0 && this.points > 1) {
+    if (this.points % 5 === 0 && this.points > 1) {
       this.level += 1;
       let levelScreen = document.querySelector("h3");
       levelScreen.textContent = `LEVEL: ${this.level}`;
-      this.bullet.moveFaster();
-      //PARA LLAMAR A UN NUEVO BULLET????? Habria que hacer un array me dijo manu!!
-      // if (this.points % 4 === 0){
-      //   //this.arrayBullets.push(new Obstacle())
-      //   this.bullet.move();
-      // }
+      clearInterval(this.generateBulletsInterval);
+      this.currentSecondsForBulletInterval = this.secondsForBulletsInterval / this.level;
+      this.startGeneratingBullets();
     }
   }
 
@@ -180,7 +231,10 @@ class Game {
     if (this.gameStatus === "PLAYING") {
       this.stopAnimationFrame();
       this.player.stopPlayerInterval();
-      this.bullet.stopBulLetInterval();
+      this.Bullets.forEach((bullet) => {
+        bullet.stopBulLetInterval();
+        });
+      clearInterval(this.generateBulletsInterval);
       document.querySelector(".opasity").classList.remove("hide");
       document.querySelector(".pauseScreen").classList.remove("hide");
       this.gameStatus = "STOPPED";
@@ -188,8 +242,11 @@ class Game {
       document.querySelector(".opasity").classList.add("hide");
       document.querySelector(".pauseScreen").classList.add("hide");
       this.intervalGame = window.requestAnimationFrame(this._update.bind(this));
-      this.bullet.move();
+      this.Bullets.forEach((bullet) => {
+        bullet.move();
+        });
       this.player.resumePlayerInterval();
+      this.startGeneratingMoreBullets();
       this.gameStatus = "PLAYING";
     }
   }
@@ -197,6 +254,7 @@ class Game {
   //GAME OVER Screen
   gameOver() {
     this.stopAnimationFrame();
+    clearInterval(this.generateBulletsInterval);
     //this.player.stopPlayerInterval();
     
     document.querySelector(".opasity").classList.remove("hide");
@@ -217,7 +275,9 @@ class Game {
     this.moveBackground();
     this._drawPlayer();
     this._drawBullet();
+    this.deleteBullets();
     this.checkCollision();
+    console.log(this.Bullets.length);
     if (this.intervalGame !== undefined) {
       this.intervalGame = window.requestAnimationFrame(this._update.bind(this));
     }

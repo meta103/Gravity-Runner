@@ -18,7 +18,7 @@ class Player {
     this.status = "STOPPED";
     //SPRITES
     this.character = new Image();
-    this.character.src = "SPRITES/PLAYER.png";
+    this.character.src = "SPRITES/player.png";
 
     this.spriteWidth = 6000;
     this.spriteHeight = 2400;
@@ -101,7 +101,7 @@ class Player {
       this.srcX = this.currentFrame * this.widthFrame;
       this._changeFrames();
       if (this.status === "DEAD" && this.currentFrame === 8){
-        this.intervalIdSprites = clearInterval(this.intervalIdSprites);
+        clearInterval(this.intervalIdSprites);
       }
     },this.velocityFrame)
   }
@@ -118,15 +118,14 @@ class Player {
       this.srcY = this.heightFrame*2;
       this.frameCount = 8;
     } else if (this.status === "DEAD"){
-      this.character.src="SPRITES/EXPLOSION.png"
-      this.velocityFrame = 2000;
+      this.character.src="SPRITES/explosion.png"
+      this.velocityFrame = 20;
       this.spriteWidth = 4017;
       this.spriteHeight = 600;
       this.rows = 1;
       this.cols = 7;
       this.srcY = 0;
       this.frameCount = 8;
-      
       
     } 
   }

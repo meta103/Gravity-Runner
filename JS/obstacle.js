@@ -10,11 +10,10 @@ class Obstacle {
     this.bottom = 0;
     this.left = 0;
     this.right = 0;
-    this.velocity = 15;
 
     //SPRITES
     this.rocket = new Image();
-    this.rocket.src = "SPRITES/ROCKETS.png";
+    this.rocket.src = "SPRITES/rockets.png";
 
     this.spriteWidth = 1689;
     this.spriteHeight = 226;
@@ -29,12 +28,13 @@ class Obstacle {
 
     this.srcX = 0;
     this.srcY = this.heightFrame*0 ;
-
+    
     this._updateFrame();
+    this.move();
   }
   
   move (){
-    this.intervalId = setInterval(this.moveToTheLeft.bind(this), this.velocity);
+    this.intervalId = setInterval(this.moveToTheLeft.bind(this), 17);
   }
 
   stopBulLetInterval(){
@@ -43,12 +43,14 @@ class Obstacle {
   
 
   moveToTheLeft(){
-    if (this.x > -100) {
-      this.x-=10;
-    } else {
-      this.x=1020; 
-      this.y = this.generatePosition();
-    }
+    this.x-=10;
+    this.getBulletCoordinates();
+    // if (this.x > -100) {
+    //   this.x-=10;
+    // } else {
+    //   this.x=1020; 
+    //   this.y = this.generatePosition();
+    // }
   }
   generatePosition (){
     let newY = Math.floor(Math.random() * (480 - 30)+30);
@@ -62,11 +64,6 @@ class Obstacle {
     this.right = this.x + this.bulletWidth;
   }
   
-  moveFaster(){
-    this.velocity -= 2;
-    this.stopBulLetInterval();
-    this.move();
-  }
 
   //SPRITES
   _updateFrame(){

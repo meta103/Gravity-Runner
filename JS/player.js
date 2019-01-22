@@ -16,6 +16,11 @@ class Player {
     this.left = 0;
     this.playerVelocity = 15;
     this.status = "STOPPED";
+
+    // Audio Effects
+    this.switchGravityAudio = new Audio();
+    this.switchGravityAudio.src = "music /ES_Beep Electronic 8 - SFX Producer.mp3";
+
     //SPRITES
     this.character = new Image();
     this.character.src = "sprites/player_.png";
@@ -66,17 +71,17 @@ class Player {
   }
 
   changeGravity (){
-    if (this.gravity === "down" && this.status === "MOVING") {
+    if (this.gravity === "down" && (this.status === "MOVING" || this.status === "ROCKETDESTROYED")) {
       this.y-=10;
-      this.status = "MOVING";
+      // this.status = "MOVING";
       if (this.y < 30 ){
         clearInterval(this.intervalId);
         this.status = "STOPPED";
         this.gravity ="up";
       }
-    } else if (this.gravity ==="up" && this.status === "MOVING"){
+    } else if (this.gravity ==="up" && (this.status === "MOVING" || this.status === "ROCKETDESTROYED")){
       this.y+=10;
-      this.status = "MOVING";
+      // this.status = "MOVING";
       if (this.y > (this.canvasHeight-120)){
         clearInterval(this.intervalId);
         this.status = "STOPPED";
@@ -111,21 +116,33 @@ class Player {
       if (this.gravity === "down"){
         this.srcY = this.heightFrame*0;
         this.frameCount = 10;
+        this.velocityFrame = 50;
+        clearInterval(this.intervalIdSprites);
+        this._updateFrame();
       } else if (this.gravity === "up"){
         this.srcY = this.heightFrame*1;
+        this.frameCount = 10;
+        this.velocityFrame = 50;
+        clearInterval(this.intervalIdSprites);
+        this._updateFrame();
       }
     } else if (this.status === "MOVING"){
       this.srcY = this.heightFrame*2;
       this.frameCount = 8;
+      this.velocityFrame = 50;
+      clearInterval(this.intervalIdSprites);
+      this._updateFrame();
     } else if (this.status === "DEAD"){
-      this.character.src="sprites/explosion_.png"
-      this.velocityFrame = 20;
+      this.character.src="sprites/explosion_.png";
+      this.velocityFrame = 50;
       this.spriteWidth = 4017;
       this.spriteHeight = 600;
       this.rows = 1;
       this.cols = 7;
       this.srcY = 0;
       this.frameCount = 8;
+      clearInterval(this.intervalIdSprites);
+      this._updateFrame();
       
     } 
   }

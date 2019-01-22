@@ -11,13 +11,15 @@ class Obstacle {
     this.left = 0;
     this.right = 0;
 
+    this.status = "active";
+
     //SPRITES
     this.rocket = new Image();
     this.rocket.src = "sprites/rockets_.png";
 
     this.spriteWidth = 1689;
-    this.spriteHeight = 226;
-    this.rows = 1;
+    this.spriteHeight = 678;
+    this.rows = 3;
     this.cols = 3;
 
     this.widthFrame = this.spriteWidth/this.cols;
@@ -27,7 +29,7 @@ class Obstacle {
     this.frameCount = 3;
 
     this.srcX = 0;
-    this.srcY = this.heightFrame*0 ;
+    this.srcY = this.heightFrame*0;
     
     this._updateFrame();
     this.move();
@@ -71,7 +73,18 @@ class Obstacle {
     this.intervalId = setInterval(()=>{
       this.currentFrame = ++this.currentFrame % this.frameCount;
       this.srcX = this.currentFrame * this.widthFrame;
+      this._changeFrames();
     },50)
+  }
+
+  _changeFrames(){
+    if (this.status === "active"){
+      this.srcY = this.heightFrame*0;
+    } else if (this.status === "exploded"){
+      this.srcY = this.heightFrame*1;
+    } else if (this.status === "disabled"){
+      this.srcY = this.heightFrame*2;
+    }
   }
 
 }

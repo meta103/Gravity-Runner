@@ -5,6 +5,7 @@ class Game {
     this.player = new Player(100, 450, this.canvas.height, this.ctx);
     this.bullet = new Obstacle();
     this.Bullets = [];
+    this.disabledBullets = [];
     this.points = 0;
     this.level = 1;
     this.secondsForBulletsInterval = 2500;
@@ -14,6 +15,16 @@ class Game {
     this.gameStatus = "PLAYING";
     this.character = new Image();
     this.background = new Background();
+    //Audio effects
+    this.music = new Audio();
+    this.music.src = "music /ES_City Night Drive 4 - Håkan Eriksson.mp3";
+
+    this.disabledRocketAudio = new Audio();
+    this.disabledRocketAudio.src = "music /ES_Beep Tone Signal 55 - SFX Producer.mp3";
+
+    this.explosion = new Audio();
+    this.explosion.src = "music /ES_Explosion Heavy 4 - SFX Producer.mp3";
+  
   }
 
   //Pantalla de inicio
@@ -23,6 +34,9 @@ class Game {
         case 32:
           //document.querySelector(".startScreen").style = "display: none";
           document.querySelector(".startScreen").classList.add("hide");
+          document.querySelector(".stadistics").classList.remove("hide");
+          document.querySelector(".canvasContainer").classList.remove("hide");
+          this.music.play();
           this.start();
           break;
       }
@@ -66,6 +80,7 @@ class Game {
       switch (e.keyCode) {
         case 32:
           this.player.move();
+          this.player.switchGravityAudio.play();
           break;
         case 80:
           this.pause();
@@ -143,18 +158,23 @@ class Game {
     });
   }
 
+  drawDisabledBullet(){
+    this.disabledBullets.forEach((disabledBullet) =>{
+      this.ctx.drawImage(
+        this.bullet.rocket,
+        this.bullet.srcX,
+        this.bullet.srcY,
+        this.bullet.widthFrame,
+        this.bullet.heightFrame,
+        disabledBullet.x,
+        disabledBullet.y,
+        disabledBullet.width,
+        disabledBullet.height
+      )
+    });
+  }
+
   checkCollision() {
-    //   if (this.player.top < this.bullet.bottom && this.player.bottom > this.bullet.top){
-    //     if (this.player.right == this.bullet.left) {
-    //       console.log ("COLLISION!!!!!!!!");
-    //       }
-    //     } else if (this.player.left < this.bullet.right && this.player.right > this.bullet.left){
-    //       if (this.player.bottom == this.bullet.top){
-    //         console.log("TOP COLLISION");
-    //       } else if (this.player.top == this.bullet.bottom){
-    //         console.log("BOTTOM COLLISION");
-    //       }
-    //   }
     this.Bullets.forEach((bullet) => {
       if (
         this.player.left < bullet.right &&
@@ -165,22 +185,30 @@ class Game {
           this.player.top+10 < bullet.top &&
           this.player.bottom- 10 > bullet.top
         ) {
+          this.disabledRocketAudio.load();
+          this.disabledRocketAudio.play();
+          this.bullet.status = "disabled";
+          this.disabledBullets.push({x: bullet.x, y: bullet.y, width: bullet.bulletWidth, height: bullet.bulletHeight});
+          setTimeout(() => {
+            this.disabledBullets.splice([0],1);
+          }, 200);
           console.log("TOP COLLISION");
-          console.log(this.Bullets.length);
           this.Bullets.splice(bullet.index, 1);
-          console.log(this.Bullets.length);
-          //this.generateBullets();
           this.checkPoint();
         } else if (
           this.player.left > bullet.left &&
           this.player.top+10 < bullet.bottom &&
           this.player.bottom-10 > bullet.bottom
         ) {
+          this.disabledRocketAudio.load();
+          this.disabledRocketAudio.play();
+          this.bullet.status = "disabled";
+          this.disabledBullets.push({x: bullet.x, y: bullet.y, width: bullet.bulletWidth, height: bullet.bulletHeight});
+          setTimeout(() => {
+            this.disabledBullets.splice([0],1);
+          }, 200);
           console.log("BOTTOM COLLISION");
-          console.log(this.Bullets.length);
           this.Bullets.splice(bullet.index, 1);
-          console.log(this.Bullets.length);
-          //this.generateBullets();
           this.checkPoint();
         } else if (
           this.player.top +10< bullet.bottom &&
@@ -188,15 +216,22 @@ class Game {
           this.player.right-10 > bullet.left
         ) {
           console.log("COLLISION");
+          this.music.pause();
+          this.explosion.play();
           this.player.status = "DEAD";
+          this.bullet.status = "exploded";
           this.gameStatus = "GAMEOVER";
+          this.disabledBullets.push({x: bullet.x, y: bullet.y, width: bullet.bulletWidth, height: bullet.bulletHeight});
+          setTimeout(() => {
+            this.disabledBullets.splice([0],1);
+          }, 200);
           this.Bullets.splice(bullet.index, 1);
           this.Bullets.forEach((bullet) => {
             bullet.stopBulLetInterval();
             });
           setTimeout(() => {
             this.gameOver();
-          }, 350);
+          }, 400);
         }
       }
     });
@@ -246,7 +281,7 @@ class Game {
         bullet.move();
         });
       this.player.resumePlayerInterval();
-      this.startGeneratingMoreBullets();
+      this.startGeneratingBullets();
       this.gameStatus = "PLAYING";
     }
   }
@@ -256,7 +291,6 @@ class Game {
     this.stopAnimationFrame();
     clearInterval(this.generateBulletsInterval);
     //this.player.stopPlayerInterval();
-    
     document.querySelector(".opasity").classList.remove("hide");
     document.querySelector(".gameOverScreen").classList.remove("hide");
     document.onkeyup = e => {
@@ -275,9 +309,9 @@ class Game {
     this.moveBackground();
     this._drawPlayer();
     this._drawBullet();
+    this.drawDisabledBullet();
     this.deleteBullets();
     this.checkCollision();
-    console.log(this.Bullets.length);
     if (this.intervalGame !== undefined) {
       this.intervalGame = window.requestAnimationFrame(this._update.bind(this));
     }

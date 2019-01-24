@@ -17,7 +17,7 @@ class Game {
     this.background = new Background();
     //Audio effects
     this.music = new Audio();
-    this.music.src = "music /ES_City Night Drive 4 - Håkan Eriksson (2).mp3";
+    this.music.src = "music /backgroundmusic.mp3";
 
     this.disabledRocketAudio = new Audio();
     this.disabledRocketAudio.src = "music /ES_Beep Tone Signal 55 - SFX Producer.mp3";

@@ -1,7 +1,7 @@
 # Gravity Runner
 
 ## Description
-The purpose of this platform game is to reach the highest score possible while avoiding obstacles.
+The purpose of this platform game is to reach the highest score possible by killing the rockets.
 Player's movements are limited to switching it's gravitational point but it cannot be changed again until the player's location is on the roof/floor depending on the current gravity. 
 
 
@@ -9,6 +9,8 @@ Player's movements are limited to switching it's gravitational point but it cann
 ### GAME SCREEN
 Display title & start button
 Display game over screen when finished
+Display pause screen
+Display Score and level screen
 
 ### GAME BASICS
 Display obstacles randomly from right to left
@@ -19,20 +21,20 @@ Set limits for player's movement (roof & floor)
 
 Move the player from bottom to top and vice versa with the space bar key.
 
-Establish the collision.
+Establish the front, bottom and top collision.
 
-Game ends when a collition is detected.
+Game ends when a front collition is detected.
 
 
 ## Backlog
 ### Game music
-TBC
+Done
 ### High score screen
 TBC
 ### Levels
-When a new level is reached, the velocity shall increase
+When a new level is reached, the quantity of rockets will increase by 1.
 ### Theme
-TBC (Inspired from Mario Bros? Minecraft? none?)
+Space.
 ### Bonus
 Additional life, points, new skills, multiplayer, etc
 
@@ -48,9 +50,13 @@ player.js
 
 obstacle.js
 
+background.js
+
+styles.css
+
 
 ## States y States Transitions
-Definition of the different states and their transition (transition functions)
+Game starts at level 1 and only one rocket will be displayed the quantity will increase as the level increases. Your goal is to kill all the rockets if you miss one, it will be back! No matter the level.
 
 ### Start screen
 Display title & start button

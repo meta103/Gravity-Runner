@@ -20,10 +20,10 @@ class Game {
     this.music.src = "music /backgroundmusic.mp3";
 
     this.disabledRocketAudio = new Audio();
-    this.disabledRocketAudio.src = "music /ES_Beep Tone Signal 55 - SFX Producer.mp3";
+    this.disabledRocketAudio.src = "music /disabledRocketAudio.mp3";
 
     this.explosion = new Audio();
-    this.explosion.src = "music /ES_Explosion Heavy 4 - SFX Producer.mp3";
+    this.explosion.src = "music /explosion.mp3";
   
   }
 

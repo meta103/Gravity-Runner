@@ -19,7 +19,7 @@ class Player {
 
     // Audio Effects
     this.switchGravityAudio = new Audio();
-    this.switchGravityAudio.src = "music /ES_Beep Tone Signal 51 - SFX Producer.mp3";
+    this.switchGravityAudio.src = "music /switchGravityAudio.mp3";
     this.switchGravityAudio.volume -= 0.9;
 
     //SPRITES
